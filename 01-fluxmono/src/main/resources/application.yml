@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      host: localhost
+      port: 32769
+      database: local
+
+---
+spring:
+  profiles: staging
+  data:
+    mongodb:
+      host: localhost
+      port: 32769
+      database: local
+
+---
+spring:
+  profiles: prod
+  data:
+    mongodb:
+      host: localhost
+      port: 32769
+      database: local
