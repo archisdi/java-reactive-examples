@@ -1,15 +1,22 @@
 package com.fluxmono.initializer;
 
 import com.fluxmono.document.Item;
+import com.fluxmono.document.ItemCapped;
+import com.fluxmono.repository.ItemCappedRepository;
 import com.fluxmono.repository.ItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.mongodb.core.CollectionOptions;
+import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.List;
 
 @Component
+@Slf4j
 public class ItemDataInitializer implements CommandLineRunner { // will run when app start
 
     List<Item> items = List.of(
@@ -21,13 +28,36 @@ public class ItemDataInitializer implements CommandLineRunner { // will run when
             new Item(null, "Monitor", 413.63)
     );
 
-
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    ItemCappedRepository itemCappedRepository;
+
+    @Autowired
+    ReactiveMongoOperations mongoOperations;
 
     @Override
     public void run(String... args) throws Exception {
         initializeData();
+        initializeCappedCollection();
+        initializeCappedData();
+    }
+
+    private void initializeCappedCollection() {
+        mongoOperations.dropCollection(ItemCapped.class)
+            .then(mongoOperations.createCollection(
+                ItemCapped.class,
+                CollectionOptions.empty().maxDocuments(20).size(50000).capped()
+        )).subscribe();
+    }
+
+    private void initializeCappedData() {
+        Flux<ItemCapped> itemCappedFlux = Flux.interval(Duration.ofSeconds(1))
+                .map(i -> new ItemCapped(null, "Random Item " + i, 100.0 + i));
+
+        itemCappedRepository.insert(itemCappedFlux)
+                .subscribe(i -> log.info("Item Created: " + i));
     }
 
     private void initializeData() {
