@@ -1,10 +1,9 @@
 package com.fluxmono.basics;
 
+import com.fluxmono.error.CustomError;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
-
-import java.time.Duration;
 
 public class FluxMonoErrorTest {
 

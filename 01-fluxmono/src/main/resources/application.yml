@@ -10,10 +10,13 @@ spring:
       host: localhost
       port: 32769
       database: local
+      authentication-database: admin
+      username: root
+      password: root
 
 ---
 spring:
-  profiles: staging
+  profiles: test
   data:
     mongodb:
       host: localhost

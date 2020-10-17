@@ -1,4 +1,4 @@
-package com.fluxmono.basics;
+package com.fluxmono.error;
 
 public class CustomError extends Throwable {
     private String message;
