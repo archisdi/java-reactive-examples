@@ -56,5 +56,11 @@ public class ItemController {
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @GetMapping(ItemConstant.ITEM_ENDPOINT_v1 + "/exception")
+    public Flux<Item> runTimeExceptionExample() {
+        return itemRepository.findAll()
+                .concatWith(Mono.error(new RuntimeException("Sumtinwong")));
+    }
 }
 
