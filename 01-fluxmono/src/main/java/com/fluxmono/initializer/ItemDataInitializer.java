@@ -13,13 +13,14 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
 @Slf4j
 public class ItemDataInitializer implements CommandLineRunner { // will run when app start
 
-    List<Item> items = List.of(
+    List<Item> items = Arrays.asList(
             new Item(null, "Samsung Tv", 43.34),
             new Item(null, "Iphone", 643.34),
             new Item("WOW", "Airpod", 453.3),
@@ -39,9 +40,9 @@ public class ItemDataInitializer implements CommandLineRunner { // will run when
 
     @Override
     public void run(String... args) throws Exception {
-        initializeData();
-        initializeCappedCollection();
-        initializeCappedData();
+//        initializeData();
+//        initializeCappedCollection();
+//        initializeCappedData();
     }
 
     private void initializeCappedCollection() {

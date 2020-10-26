@@ -7,8 +7,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.print.attribute.standard.Media;
-
 @RestController
 public class ItemClientController {
     WebClient webClient = WebClient.create("http://127.0.0.1:8080");
